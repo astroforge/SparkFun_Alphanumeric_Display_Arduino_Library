@@ -387,12 +387,12 @@ class AlphaDisplay:
     # Write a character buffer to the display
     def writeBuffer(self, buffer, overwrite = True):
         for currentChar in buffer:
-            if (currentChar == '.') and (self.digitPosition < 3) and not self.didWraparound:
+            if (currentChar == '.') and (self.digitPosition < 4) and not self.didWraparound:
                 self.decimalOn()
                 while (self.digitPosition < 3):     # pad display with spaces to position '.' correctly
                     if overwrite : self.clearDigit(self.digitPosition)
                     self.digitPosition += 1
-            elif (currentChar == ':') and (self.digitPosition < 2) and not self.didWraparound:
+            elif (currentChar == ':') and (self.digitPosition < 3) and not self.didWraparound:
                 self.colonOn()
                 while (self.digitPosition < 2):     # pad display with spaces to position ':' correctly
                     if overwrite : self.clearDigit(self.digitPosition)
@@ -408,14 +408,31 @@ class AlphaDisplay:
 
         return self.updateDisplay()
 
-    # Write a string to the display
-    def printString(self, stringToWrite):
-        assert (stringToWrite != None), "In printString: Value required, stringToWrite is None"
-        stringToWrite = '{:4}'.format(stringToWrite)    # pad with spaces on the right to ensure digit clearing
+    def _resetPos(self):
         self.digitPosition = 0
         self.didWraparound = False
         self.colonOff()
         self.decimalOff()
+        self.updateDisplay()
+
+    # Write a string to the display
+    def printString(self, stringToWrite):
+        assert (stringToWrite != None), "In printString: Value required, stringToWrite is None"
+        stringToWrite = '{:4}'.format(stringToWrite)    # pad with spaces on the right to ensure digit clearing
+        return self.writeBuffer(stringToWrite)
+
+    # Write a number to the display (must fit pattern ###.#)
+    def printNum(self, numberToWrite):
+        stringToWrite = '{:>5.1f}'.format(numberToWrite).rstrip('0'.rstrip('.'))
+        splitString = stringToWrite.split('.', 1)
+        if len(splitString[0]) > 3 : stringToWrite = splitString[0]
+        self._resetPos()
+        return self.writeBuffer(stringToWrite)
+
+    # Write a time to the display (must fit pattern MM:mm, MM = majorVal, mm = minorVal)
+    def printTime(self, majorVal, minorVal):
+        stringToWrite = '{:>2}:{:0>2}'.format(majorVal, minorVal)    # format as time
+        self._resetPos()
         return self.writeBuffer(stringToWrite)
 
     # Shift the display content to the right shiftAmount digits
