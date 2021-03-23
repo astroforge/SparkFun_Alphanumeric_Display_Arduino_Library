@@ -37,7 +37,7 @@ Distributed as-is; no warranty is given.
 
 ----------------------------------------------------------------------------------------------------
 
-**SparkFunAlphaDisplay.py**
+# SparkFunAlphaDisplay.py
 
 Basic Instructions:
 ```python
@@ -67,8 +67,8 @@ display.printString('Demo')
 `printString(stringToWrite)` | Writes `stringToWrite` to the display (with wrap-around at the end of the display). Updates the display. Turns on ':' and '.' if included in the string, will skip digits to ensure proper positioning (mostly). Returns True on success.
 `printNum(numberToWrite)` | Write a number to the display (must be a number fitting the pattern '####', `###.#`, `##.#`, or `#.#`). Returns True on success.
 `printTime(majorVal, minorVal)` | Write a time to the display (must fit pattern `MM:mm`, `MM` = `majorVal`, `mm` = `minorVal`). Returns True on success.
-`shiftRight(shiftAmount = 1, insertText = ' ')` | Shifts the contents of the display `shiftAmount` digits to the right. Inserts `insertText`on the left. Defaults to shifting one digit and inserts a space on the left. Returns True on success.
-`shiftLeft(shiftAmount = 1, insertText = ' ')` | Shifts the contents of the display `shiftAmount` digits to the left. Inserts `insertText`on the right. Defaults to shifting one digit and inserts a space on the right. Returns True on success.
+`shiftRight(shiftAmount = 1, insertText = ' ')` | Shifts the contents of the display `shiftAmount` digits to the right. Inserts `insertText`on the left. Defaults to shifting one digit and inserts a space on the left. Returns the character(s) shifted out.
+`shiftLeft(shiftAmount = 1, insertText = ' ')` | Shifts the contents of the display `shiftAmount` digits to the left. Inserts `insertText`on the right. Defaults to shifting one digit and inserts a space on the right. Returns the character(s) shifted out.
 
 ----------------------------------------------------------------------------------------------------
 **`AlphaDisplay` Class - Additional Functions**
@@ -141,4 +141,42 @@ display.printString('Demo')
 `ALPHA_COLON_ON` | Internal value for display Colon on. Used for class variable `colonOnOff`.
 `ALPHA_COLON_OFF` | Internal value for display Colon off. Used for class variable `colonOnOff`.
 
+----------------------------------------------------------------------------------------------------
+
+# SparkFunMultiDisplay.py
+
+Basic Instructions:
+```python
+import SparkFunAlphaDisplay
+import SparkFunMultiDisplay
+from machine import I2C
+i2c = I2C(1)
+i2c.scan()
+display = SparkFunAlphaDisplay.AlphaDisplay(i2c, [address1, address2, ..., addressN])
+display.begin()
+display.printString('Demo')
+```
+
+----------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------
+**`MultiDisplay` Class - Definition**
+**Constructor** | **Description**
+--------------------------- | -----------------------------------------------------------------------
+`MultiDisplay(i2cInstance, addresses = DEFAULT_ADDRESSES)` | i2cInstance = An instance of the machine module's I2C class (machine.I2C)<br>addresses = A comma separated [] list of I2C address of displays to control.<br>(Default address list is one display, [112]).
+
+----------------------------------------------------------------------------------------------------
+**`MultiDisplay` Class - Basic Functions**
+**Function** | **Description**
+--------------------------- | -----------------------------------------------------------------------
+`begin()` | Verifies the display is connected and initializes/clears it (includes calling the `initialize()` function).  Returns True on success. Calling this function is the simplest way to get ready for other print functions.
+`setBrightness(duty)` | Sets the display brightness. Valid values are 0-15. Returns True on success.
+`setBlinkRate(rate)` | Sets the display blink rate. Valid values for `rate` are 0 (no blink), .5, 1, or 2 Hz. Returns True on success.
+`clear(doUpdate = True)` | Zero's the display RAM, and if doUpdate is True also clears/updates the display. Returns True on success.
+`printString(stringToWrite)` | Writes `stringToWrite` to the display (with wrap-around at the end of the displays). Updates the display. Turns on ':' and '.' if included in the string, will skip digits to ensure proper positioning (mostly). Returns True on success.
+`shiftRight(shiftAmount = 1)` | Shifts the contents of the display `shiftAmount` digits to the right. Inserts spaces on the left. Defaults to shifting one digit. Returns the character(s) shifted out.
+`shiftLeft(shiftAmount = 1)` | Shifts the contents of the display `shiftAmount` digits to the left. Inserts spaces on the right. Defaults to shifting one digit. Returns the character(s) shifted out.
+`rotateRight(shiftAmount = 1)` | Rotates the contents of the display 1 digit to the right.  Does not return a value.
+`rotateLeft(shiftAmount = 1)` | Rotates the contents of the display 1 digit to the left.  Does not return a value.
+`scrollPrint(stringToPrint)` | Produces an animation that scrolls the given text on the available displays, until the entire string has been shown. Does not return until after the animation completes (this may take a long time, depending on the string length).
+`setScrollDelay(delay)` | Sets the scrolling speed of scrollPrint. This is the delay time per frame in milliseconds.
 
