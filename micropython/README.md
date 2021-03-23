@@ -152,7 +152,7 @@ import SparkFunMultiDisplay
 from machine import I2C
 i2c = I2C(1)
 i2c.scan()
-display = SparkFunMultiDisplay.AlphaDisplay(i2c, [address1, address2, ..., addressN])
+display = SparkFunMultiDisplay.MultiDisplay(i2c, [address1, address2, ..., addressN])
 display.begin()
 display.printString('Demo')
 ```
