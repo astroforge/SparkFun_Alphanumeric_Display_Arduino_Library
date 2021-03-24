@@ -228,4 +228,6 @@ display.printString('Demo')
 `DEFAULT_ADDRESSES` | Default list of display I2C addresses to use when not specified.  Defaults to `[112]` (a single display).
 `DEFAULT_SCROLLDELAY` | Default scroll delay to use for animation functions, in milliseconds.  Defaults to 1000ms (1 second).
 
+# Segment and RAM Layouts
+![RAMLayout](https://user-images.githubusercontent.com/77214534/112234256-80045680-8c12-11eb-8d37-45d777cbfd98.png)
 
