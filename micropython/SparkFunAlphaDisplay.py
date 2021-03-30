@@ -15,6 +15,7 @@
 #  i2c = I2C(1)
 #  i2c.scan()
 #  display = SparkFunAlphaDisplay.AlphaDisplay(i2c, address)
+#  display.begin()
 #  display.printString('Demo')
 
 # If we have sleep_ms() available, use it, otherwise we can use sleep()

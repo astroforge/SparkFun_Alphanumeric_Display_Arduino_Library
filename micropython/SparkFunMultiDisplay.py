@@ -44,6 +44,7 @@
 #  i2c.scan()
 #  # Below addresses must be a comma separated list of addresses, can be 1 address, but brackets required
 #  display = SparkFunMultiDisplay.MultiDisplay(i2c, [address1 ... , addressN])
+#  display.begin()
 #  display.printString('This is a test')
 #  display.scrollPrint('This text will be scrolled across all displays.')
 #
